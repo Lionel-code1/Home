@@ -6,7 +6,7 @@
   <title>Mini Games & Soundboard</title>
   <style>
     :root {
-      --primary: #88b600;
+      --primary: #b65500;
       --secondary: #ff9100;
       --bg: #fafafa;
       --card-bg: #fff;
@@ -106,7 +106,7 @@
     }
 
     .card a:hover {
-      color: #6c9200;
+      color: #00ff08;
     }
 
     .card img {
@@ -158,7 +158,99 @@
       animation-delay: calc(0.1s * var(--i));
       display: inline-block;
     }
+      h2, h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #444;
+  }
 
+  #login-section,
+  #admin-section {
+    background: white;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: border 0.2s;
+  }
+
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    border-color: #88b600;
+    outline: none;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    background: #585858;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  button:hover {
+    background: #749e00;
+  }
+
+  #login-error,
+  #admin-message {
+    text-align: center;
+    font-size: 0.95em;
+    margin-top: 10px;
+  }
+
+  #login-error {
+    color: red;
+  }
+
+  #admin-message {
+    color: green;
+  }
+
+  #user-list {
+    list-style: none;
+    padding-left: 0;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  #user-list li {
+    padding: 6px;
+    background: #ffffff;
+    margin: 5px auto;
+    max-width: 300px;
+    border-radius: 6px;
+  }
+
+  #current-user {
+    font-weight: bold;
+    color: #222;
+  }
+
+  #logout-btn {
+    margin-top: 10px;
+    background: #585858;
+  }
+
+  #logout-btn:hover {
+    background: #ff0000;
+  }
     @keyframes wave {
       0%,100% { transform: translateY(0); }
       50% { transform: translateY(-15px); }
@@ -178,7 +270,8 @@
   <a href="index.html" class="btn">Home</a>
   <a href="https://lionel-code1.github.io/Bug/" class="btn">Kontakt/Bugs</a>
   <a href="blog.html" class="btn">Blog</a>
-  <button id="toggle-mode" class="btn">Dark Mode</button>
+<a href="#" id="toggle-mode" class="btn">Dark Mode</a>
+
 </header>
 
 <main>
@@ -252,6 +345,7 @@
       <iframe width="110" height="200" src="https://www.myinstants.com/instant/fart/embed/"></iframe>
       <iframe width="110" height="200" src="https://www.myinstants.com/instant/scream-meme-11955/embed/"></iframe>
       <iframe width="110" height="200" src="https://www.myinstants.com/instant/oh-shit-not-good-50355/embed/"></iframe>
+ 
       <iframe width="110" height="200" src="https://www.myinstants.com/instant/noooo/embed/"></iframe>
       <iframe width="110" height="200" src="https://www.myinstants.com/instant/screaming-sheep/embed/"></iframe>
       <iframe width="110" height="200" src="https://www.myinstants.com/instant/undertaker-bell-repeat-72489/embed/"></iframe>
@@ -260,17 +354,24 @@
   </section>
 
   <div class="divider"></div>
+<h2>Login</h2>
+<input type="text" id="username" placeholder="Dein Name" />
+<input type="password" id="password" placeholder="Passwort" />
+<button id="login-btn">Einloggen</button>
+<p id="login-error" style="color:red;"></p>
 
-  <section>
-    <div class="waving-text">
-      <span style="--i:1;">L</span>
-      <span style="--i:2;">i</span>
-      <span style="--i:3;">o</span>
-      <span style="--i:4;">n</span>
-      <span style="--i:5;">e</span>
-      <span style="--i:6;">l</span>
-    </div>
-  </section>
+<h2>Angemeldete Nutzer</h2>
+<ul id="user-list"></ul>
+<p>Angemeldet als: <span id="current-user"></span></p>
+<button id="logout-btn">Ausloggen</button>
+
+
+
+<h3>Admin-Code</h3>
+<input type="text" id="admin-code" placeholder="Geheimcode eingeben">
+<button id="admin-check-btn">Bestätigen</button>
+<p id="admin-message" style="color: green;"></p>
+
 
   <div class="divider"></div>
 
@@ -290,16 +391,141 @@
 
 </main>
 
-<footer>
+
+
+
+
+
+
+
+  <footer>
   &copy; 2025 Lionel's Mini Games & Soundboard
 </footer>
-
 <script>
-  // Dark Mode Toggle
-  document.getElementById('toggle-mode').addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    const modeText = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
-    document.getElementById('toggle-mode').textContent = modeText;
+    // Dark Mode Toggle
+ document.getElementById('toggle-mode').addEventListener('click', (e) => {
+  e.preventDefault(); // Link soll nicht nach oben springen
+  document.body.classList.toggle('dark-mode');
+  const modeText = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+  document.getElementById('toggle-mode').textContent = modeText;
+});
+
+  const loginBtn = document.getElementById('login-btn');
+  const logoutBtn = document.getElementById('logout-btn');
+  const usernameInput = document.getElementById('username');
+  const passwordInput = document.getElementById('password');
+  const loginError = document.getElementById('login-error');
+  const userList = document.getElementById('user-list');
+  const currentUserSpan = document.getElementById('current-user');
+  const adminCheckBtn = document.getElementById('admin-check-btn');
+  const adminCodeInput = document.getElementById('admin-code');
+  const adminMessage = document.getElementById('admin-message');
+
+
+ const SECRET_ADMIN_CODE = "Gls120213";
+ // ✏️ Hier deinen geheimen Admin-Code ändern
+  let isAdmin = false;
+
+  function getUsers() {
+    return JSON.parse(localStorage.getItem('users') || '[]');
+  }
+
+  function saveUsers(users) {
+    localStorage.setItem('users', JSON.stringify(users));
+  }
+
+  function getCurrentUser() {
+    return JSON.parse(localStorage.getItem('currentUser'));
+  }
+
+  function setCurrentUser(user) {
+    localStorage.setItem('currentUser', JSON.stringify(user));
+  }
+
+  function logout() {
+    localStorage.removeItem('currentUser');
+    showLogin();
+  }
+
+  function showUserList() {
+    usernameInput.style.display = 'none';
+    passwordInput.style.display = 'none';
+    loginBtn.style.display = 'none';
+    loginError.textContent = '';
+
+    const users = getUsers();
+    const currentUser = getCurrentUser();
+    userList.innerHTML = '';
+
+    users.forEach(user => {
+      const li = document.createElement('li');
+      if (isAdmin || (currentUser && user.name === currentUser.name)) {
+        li.textContent = `${user.name} (Passwort: ${user.password})`;
+      } else {
+        li.textContent = user.name;
+      }
+      userList.appendChild(li);
+    });
+
+    currentUserSpan.textContent = currentUser ? currentUser.name : '';
+  }
+
+  function showLogin() {
+    usernameInput.style.display = 'inline-block';
+    passwordInput.style.display = 'inline-block';
+    loginBtn.style.display = 'inline-block';
+    userList.innerHTML = '';
+    currentUserSpan.textContent = '';
+    loginError.textContent = '';
+  }
+
+  loginBtn.addEventListener('click', () => {
+    const username = usernameInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    if (!username || !password) {
+      loginError.textContent = 'Bitte Name und Passwort eingeben.';
+      return;
+    }
+
+    let users = getUsers();
+    let existingUser = users.find(u => u.name === username);
+
+    if (!existingUser) {
+      users.push({ name: username, password: password });
+      saveUsers(users);
+    } else if (existingUser.password !== password) {
+      loginError.textContent = 'Falsches Passwort!';
+      return;
+    }
+
+    setCurrentUser({ name: username, password: password });
+    showUserList();
+  });
+
+  logoutBtn.addEventListener('click', () => {
+    logout();
+  });
+
+  adminCheckBtn.addEventListener('click', () => {
+    const code = adminCodeInput.value.trim();
+    if (code === SECRET_ADMIN_CODE) {
+      isAdmin = true;
+      adminMessage.textContent = 'Admin-Modus aktiviert!';
+      adminMessage.style.color = 'green';
+      showUserList();
+    } else {
+      adminMessage.textContent = 'Falscher Admin-Code.';
+      adminMessage.style.color = 'red';
+    }
+  });
+
+  window.addEventListener('load', () => {
+    if (getCurrentUser()) {
+      showUserList();
+    } else {
+      showLogin();
+    }
   });
 </script>
 
