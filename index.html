@@ -4,263 +4,297 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mini Games & Soundboard</title>
-  <style>
-    :root {
-      --primary: #b65500;
-      --secondary: #ff9100;
-      --bg: #fafafa;
-      --card-bg: #fff;
-      --text: #333;
-      --shadow: rgba(0, 0, 0, 0.1);
-      --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+ 
+ <style>
+ :root {
+  --primary: #ff3c78;       /* knalliges Pink */
+  --secondary: #00fff7;     /* knalliges Cyan */
+  --bg: #121212;            /* dunkler Hintergrund */
+  --card-bg: rgba(255, 255, 255, 0.1); /* Glas Effekt */
+  --text: #e0e0e0;          /* helles Grau */
+  --shadow-light: rgba(255, 60, 120, 0.25);
+  --shadow-dark: rgba(0, 255, 247, 0.25);
+  --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --btn-gradient: linear-gradient(45deg, #ff3c78, #00fff7);
+}
 
-    *, *::before, *::after {
-      box-sizing: border-box; 
-    }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-    body {
-      margin: 0;
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      text-align: center;
-      transition: background 0.3s ease, color 0.3s ease;
-    }
+body {
+  margin: 0;
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  text-align: center;
+  transition: background 0.5s ease, color 0.5s ease;
+  user-select: none;
+}
 
-    body.dark-mode {
-      background-color: #333;
-      color: #fff;
-    }
+body.dark-mode {
+  background-color: #f0f0f0;
+  color: #222;
+}
 
-    header {
-      background: var(--card-bg);
-      padding: 20px;
-      box-shadow: 0 2px 10px var(--shadow);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+header {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 18px 0;
+  box-shadow:
+    0 0 8px var(--shadow-light),
+    inset 0 -2px 6px rgba(255, 255, 255, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
 
-    .btn {
-      background: var(--primary);
-      color: white;
-      padding: 12px 28px;
-      text-decoration: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      margin: 0 8px;
-      transition: background 0.3s ease, transform 0.2s ease;
-      display: inline-block;
-    }
+.btn {
+  background: var(--btn-gradient);
+  color: #121212;
+  padding: 14px 32px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  box-shadow:
+    0 0 10px var(--primary),
+    0 4px 15px var(--shadow-light);
+  transition:
+    background-position 0.5s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+  user-select: none;
+}
 
-    .btn:hover {
-      background: #6c9200;
-      transform: translateY(-2px);
-    }
+.btn:hover,
+.btn:focus {
+  background-position: 100% 50%;
+  transform: translateY(-4px) scale(1.05);
+  box-shadow:
+    0 0 20px var(--secondary),
+    0 6px 20px var(--shadow-dark);
+  outline: none;
+}
 
-    main {
-      padding: 40px 20px;
-      max-width: 1000px;
-      margin: auto;
-    }
+main {
+  padding: 50px 20px;
+  max-width: 1100px;
+  margin: auto;
+}
 
-    h1 {
-      font-size: 2.75rem;
-      color: var(--secondary);
-      margin-bottom: 20px;
-    }
+h1 {
+  font-size: 3rem;
+  color: var(--secondary);
+  margin-bottom: 30px;
+  font-weight: 900;
+  letter-spacing: 1.3px;
+  text-shadow: 0 0 8px var(--secondary);
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
-      margin-bottom: 40px;
-    }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 28px;
+  margin-bottom: 50px;
+}
 
-    .card {
-      background: var(--card-bg);
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px var(--shadow);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+.card {
+  background: var(--card-bg);
+  padding: 28px 20px;
+  border-radius: 20px;
+  box-shadow:
+    0 8px 30px var(--shadow-light),
+    inset 0 0 30px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px var(--shadow);
-    }
+.card:hover {
+  transform: translateY(-15px) scale(1.05);
+  box-shadow:
+    0 15px 40px var(--shadow-dark),
+    inset 0 0 40px rgba(0, 255, 247, 0.2);
+}
 
-    .card a {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      text-decoration: none;
-      padding: 10px;
-      color: var(--primary);
-      font-size: 1.1rem;
-      font-weight: bold;
-    }
+.card a {
+  color: var(--secondary);
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  user-select: none;
+}
 
-    .card a:hover {
-      color: #00ff08;
-    }
+.card a:hover {
+  color: var(--primary);
+}
 
-    .card img {
-      width: 100%;
-      max-height: 140px;
-      object-fit: contain;
-      border-radius: 6px;
-      margin-bottom: 10px;
-    }
+.card img {
+  width: 100%;
+  max-height: 140px;
+  object-fit: contain;
+  border-radius: 16px;
+  box-shadow: 0 0 20px var(--primary);
+  transition: box-shadow 0.4s ease;
+  user-select: none;
+}
 
-    .audio-container {
-      margin: 40px 0;
-    }
+.card:hover img {
+  box-shadow: 0 0 30px var(--secondary);
+}
 
-    audio {
-      width: 100%;
-      max-width: 500px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px var(--shadow);
-    }
+.audio-container {
+  margin: 50px 0;
+}
 
-    .soundboard {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-      gap: 15px;
-      justify-items: center;
-      margin-top: 30px;
-    }
+audio {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px var(--shadow-light);
+  outline: none;
+}
 
-    .divider {
-      height: 2px;
-      background: var(--shadow);
-      margin: 60px 0;
-      width: 80%;
-      max-width: 600px;
-      margin-inline: auto;
-    }
+.soundboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 20px;
+  justify-items: center;
+  margin-top: 40px;
+}
 
-    .waving-text {
-      display: inline-flex;
-      font-size: 3.5rem;
-      font-weight: bold;
-      color: #2995dd;
-      overflow: hidden;
-    }
+.divider {
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  margin: 80px auto;
+  width: 90%;
+  max-width: 650px;
+  border-radius: 20px;
+  box-shadow: 0 0 12px var(--primary);
+}
 
-    .waving-text span {
-      animation: wave 1s ease-in-out infinite;
-      animation-delay: calc(0.1s * var(--i));
-      display: inline-block;
-    }
-      h2, h3 {
-    text-align: center;
-    margin-bottom: 10px;
-    color: #444;
-  }
+h2, h3 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #ccc;
+  font-weight: 700;
+  letter-spacing: 1px;
+  user-select: none;
+}
 
-  #login-section,
-  #admin-section {
-    background: white;
-    max-width: 400px;
-    margin: 20px auto;
-    padding: 25px 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  }
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 16px;
+  margin-top: 14px;
+  margin-bottom: 22px;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  user-select: text;
+}
 
-  input[type="text"],
-  input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1em;
-    transition: border 0.2s;
-  }
+input[type="text"]:focus,
+input[type="password"]:focus {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 0 12px var(--secondary),
+    inset 0 0 20px var(--secondary);
+  outline: none;
+  color: #fff;
+}
 
-  input[type="text"]:focus,
-  input[type="password"]:focus {
-    border-color: #88b600;
-    outline: none;
-  }
+button {
+  width: 100%;
+  padding: 16px;
+  background: var(--btn-gradient);
+  color: #121212;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow:
+    0 0 20px var(--primary),
+    0 5px 15px var(--shadow-light);
+  transition: background-position 0.5s ease, transform 0.3s ease;
+  user-select: none;
+}
 
-  button {
-    width: 100%;
-    padding: 12px;
-    background: #585858;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
+button:hover {
+  background-position: 100% 50%;
+  transform: translateY(-5px) scale(1.07);
+  box-shadow:
+    0 0 30px var(--secondary),
+    0 7px 25px var(--shadow-dark);
+  outline: none;
+}
 
-  button:hover {
-    background: #749e00;
-  }
+#waving-text {
+  font-size: 4rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: var(--secondary);
+  text-shadow: 0 0 10px var(--secondary);
+  user-select: none;
+}
 
-  #login-error,
-  #admin-message {
-    text-align: center;
-    font-size: 0.95em;
-    margin-top: 10px;
-  }
+#waving-text span {
+  animation: wave 1.2s ease-in-out infinite;
+  animation-delay: calc(0.15s * var(--i));
+  display: inline-block;
+}
 
-  #login-error {
-    color: red;
-  }
+@keyframes wave {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px) rotate(10deg); }
+}
 
-  #admin-message {
-    color: green;
-  }
+footer {
+  margin: 50px 0 30px;
+  font-size: 1rem;
+  color: #555;
+  user-select: none;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
 
-  #user-list {
-    list-style: none;
-    padding-left: 0;
-    text-align: center;
-    margin-top: 10px;
-  }
+/* Scrollbar für dunkle Seite */
+body.dark-mode::-webkit-scrollbar {
+  width: 12px;
+}
+body.dark-mode::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+body.dark-mode::-webkit-scrollbar-thumb {
+  background: var(--secondary);
+  border-radius: 10px;
+}
 
-  #user-list li {
-    padding: 6px;
-    background: #ffffff;
-    margin: 5px auto;
-    max-width: 300px;
-    border-radius: 6px;
-  }
-
-  #current-user {
-    font-weight: bold;
-    color: #222;
-  }
-
-  #logout-btn {
-    margin-top: 10px;
-    background: #585858;
-  }
-
-  #logout-btn:hover {
-    background: #ff0000;
-  }
-    @keyframes wave {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
-    }
-
-    footer {
-      margin: 40px 0 20px;
-      font-size: 0.9rem;
-      color: #777;
-    }
   </style>
 </head>
 <body>
@@ -270,7 +304,7 @@
   <a href="index.html" class="btn">Home</a>
   <a href="https://lionel-code1.github.io/Bug/" class="btn">Kontakt/Bugs</a>
   <a href="blog.html" class="btn">Blog</a>
-<a href="#" id="toggle-mode" class="btn">Dark Mode</a>
+<a href="#" id="toggle-mode" class="btn">Light Mode☀️</a>
 
 </header>
 
@@ -332,28 +366,6 @@
   </section>
 
   <div class="divider"></div>
-
-  <section>
-    <h1>Soundbuttons</h1>
-    <div class="audio-container">
-      <audio controls autoplay loop>
-        <source src="better-day-186374.mp3" type="audio/mpeg">
-        Dein Browser unterstützt das Audio-Element nicht.
-      </audio>
-    </div>
-    <div class="soundboard">
-      <iframe width="110" height="200" src="https://www.myinstants.com/instant/fart/embed/"></iframe>
-      <iframe width="110" height="200" src="https://www.myinstants.com/instant/scream-meme-11955/embed/"></iframe>
-      <iframe width="110" height="200" src="https://www.myinstants.com/instant/oh-shit-not-good-50355/embed/"></iframe>
- 
-      <iframe width="110" height="200" src="https://www.myinstants.com/instant/noooo/embed/"></iframe>
-      <iframe width="110" height="200" src="https://www.myinstants.com/instant/screaming-sheep/embed/"></iframe>
-      <iframe width="110" height="200" src="https://www.myinstants.com/instant/undertaker-bell-repeat-72489/embed/"></iframe>
-      <iframe width="110" height="200" src="https://www.myinstants.com/instant/scary-tiktok-music-80296/embed/"></iframe>
-    </div>
-  </section>
-
-  <div class="divider"></div>
 <h2>Login</h2>
 <input type="text" id="username" placeholder="Dein Name" />
 <input type="password" id="password" placeholder="Passwort" />
@@ -373,6 +385,23 @@
 <p id="admin-message" style="color: green;"></p>
 
 
+
+  <div class="divider"></div>
+
+  <section>
+    <h1>Soundbuttons</h1>
+ 
+    <div class="soundboard">
+      <iframe width="110" height="200" src="https://www.myinstants.com/instant/fart/embed/"></iframe>
+      <iframe width="110" height="200" src="https://www.myinstants.com/instant/scream-meme-11955/embed/"></iframe>
+      <iframe width="110" height="200" src="https://www.myinstants.com/instant/oh-shit-not-good-50355/embed/"></iframe>
+ 
+      <iframe width="110" height="200" src="https://www.myinstants.com/instant/noooo/embed/"></iframe>
+      <iframe width="110" height="200" src="https://www.myinstants.com/instant/screaming-sheep/embed/"></iframe>
+      <iframe width="110" height="200" src="https://www.myinstants.com/instant/undertaker-bell-repeat-72489/embed/"></iframe>
+      <iframe width="110" height="200" src="https://www.myinstants.com/instant/scary-tiktok-music-80296/embed/"></iframe>
+    </div>
+  </section>
   <div class="divider"></div>
 
   <section>
@@ -406,7 +435,7 @@
  document.getElementById('toggle-mode').addEventListener('click', (e) => {
   e.preventDefault(); // Link soll nicht nach oben springen
   document.body.classList.toggle('dark-mode');
-  const modeText = document.body.classList.contains('dark-mode') ? 'Light Mode' : 'Dark Mode';
+  const modeText = document.body.classList.contains('dark-mode') ? 'Dark Mode🌙' : 'Light Mode☀️';
   document.getElementById('toggle-mode').textContent = modeText;
 });
 
@@ -527,6 +556,39 @@
       showLogin();
     }
   });
+const today = Math.random().toString();
+
+const lastClaim = localStorage.getItem("dailyReward");
+const links = [
+  "http://lionel-code1.github.io/Taschenrechner/",
+  "https://pointerpointer.com/",
+  "https://theuselessweb.com/",
+ 
+];
+const randomLink = links[Math.floor(Math.random() * links.length)];
+
+if (lastClaim !== today) {
+  const rewardBtn = document.createElement("button");
+  rewardBtn.textContent = "🎁 Daily Reward abholen!";
+  rewardBtn.style.fontSize = "20px";
+  rewardBtn.style.padding = "10px";
+  rewardBtn.style.position = "fixed";
+  rewardBtn.style.top = "20px";
+  rewardBtn.style.left = "20px";
+  rewardBtn.style.zIndex = "9999";
+  document.body.appendChild(rewardBtn);
+
+  rewardBtn.onclick = () => {
+    localStorage.setItem("dailyReward", today);
+    let stars = Number(localStorage.getItem("stars") || 0);
+    stars += 1;
+    localStorage.setItem("stars", stars);
+    window.open(randomLink, "_blank");
+    rewardBtn.remove();
+  };
+}
+
+
 </script>
 
 </body>
