@@ -556,7 +556,8 @@ body.dark-mode::-webkit-scrollbar-thumb {
       showLogin();
     }
   });
-const today = Math.random().toString();
+const today = new Date().toDateString();
+
 
 const lastClaim = localStorage.getItem("dailyReward");
 const links = [
